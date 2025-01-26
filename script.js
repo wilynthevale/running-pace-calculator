@@ -21,24 +21,62 @@ document.getElementById('calculator').addEventListener('submit', function (e) {
   displayResults(vdot, trainingPaces);
 });
 
+// VDOT Lookup Table
+const vdotTable = {
+  '5K': [
+    { time: 14, vdot: 85 },
+    { time: 16, vdot: 75 },
+    { time: 18, vdot: 65 },
+    { time: 20, vdot: 55 },
+    { time: 22, vdot: 45 },
+    { time: 24, vdot: 35 },
+  ],
+  '10K': [
+    { time: 30, vdot: 85 },
+    { time: 35, vdot: 75 },
+    { time: 40, vdot: 65 },
+    { time: 45, vdot: 55 },
+    { time: 50, vdot: 45 },
+    { time: 55, vdot: 35 },
+  ],
+  'Half Marathon': [
+    { time: 65, vdot: 85 },
+    { time: 75, vdot: 75 },
+    { time: 85, vdot: 65 },
+    { time: 95, vdot: 55 },
+    { time: 105, vdot: 45 },
+    { time: 115, vdot: 35 },
+  ],
+  'Marathon': [
+    { time: 140, vdot: 85 },
+    { time: 160, vdot: 75 },
+    { time: 180, vdot: 65 },
+    { time: 200, vdot: 55 },
+    { time: 220, vdot: 45 },
+    { time: 240, vdot: 35 },
+  ],
+};
+
 function calculateVDOT(distance, time) {
-  // Coefficients for polynomial regression (example for 5K)
-  const coefficients = {
-    '5K': { a: -0.0002, b: 0.0226, c: -1.083, d: 47.77 },
-    '10K': { a: -0.0001, b: 0.0128, c: -0.732, d: 45.12 },
-    'Half Marathon': { a: -0.0001, b: 0.0096, c: -0.584, d: 43.45 },
-    'Marathon': { a: -0.0001, b: 0.0078, c: -0.492, d: 42.16 },
-  };
+  const table = vdotTable[distance];
+  if (!table) return null;
 
-  const { a, b, c, d } = coefficients[distance] || { a: 0, b: 0, c: 0, d: 0 };
-  const vdot = a * Math.pow(time, 3) + b * Math.pow(time, 2) + c * time + d;
+  // Find the closest lower and higher times
+  let lower = null;
+  let higher = null;
 
-  return Math.round(vdot * 100) / 100; // Round to 2 decimal places
-}
+  for (const entry of table) {
+    if (entry.time <= time) {
+      lower = entry;
+    } else {
+      higher = entry;
+      break;
+    }
+  }
 
-function calculateTrainingPaces(vdot) {
-  const zones = [
-    { name: 'Easy (E)', min: 0.59, max: 0.74, description: 'Recovery and long runs.' },
-    { name: 'Marathon (M)', min: 0.75, max: 0.84, description: 'Marathon pace training.' },
-    { name: 'Threshold (T)', min: 0.83, max: 0.88, description: 'Tempo runs and lactate threshold.' },
-    { name: 'Interval (I)', min: 0.95, max: 1.0, description: 'VO2 max and interval training.' },
+  // If time is outside the table range, return the closest VDOT
+  if (!lower) return table[0].vdot;
+  if (!higher) return table[table.length - 1].vdot;
+
+  // Interpolate VDOT
+  const vdot = lower.vdot + ((time - lower.time) / (higher.time - lower.time)) * (higher.vdot - lower.v
