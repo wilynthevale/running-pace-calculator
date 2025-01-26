@@ -14,6 +14,11 @@ document.getElementById('calculator').addEventListener('submit', function (e) {
   // Calculate VDOT
   const vdot = calculateVDOT(raceDistance, raceTime);
 
+  if (vdot === null) {
+    alert('Invalid race distance or time. Please try again.');
+    return;
+  }
+
   // Calculate Training Paces
   const trainingPaces = calculateTrainingPaces(vdot);
 
