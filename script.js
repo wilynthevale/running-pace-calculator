@@ -79,4 +79,35 @@ function calculateVDOT(distance, time) {
   if (!higher) return table[table.length - 1].vdot;
 
   // Interpolate VDOT
-  const vdot = lower.vdot + ((time - lower.time) / (higher.time - lower.time)) * (higher.vdot - lower.v
+  const vdot = lower.vdot + ((time - lower.time) / (higher.time - lower.time)) * (higher.vdot - lower.vdot);
+  return Math.round(vdot * 100) / 100; // Round to 2 decimal places
+}
+
+function calculateTrainingPaces(vdot) {
+  const zones = [
+    { name: 'Easy (E)', min: 0.59, max: 0.74, description: 'Recovery and long runs.' },
+    { name: 'Marathon (M)', min: 0.75, max: 0.84, description: 'Marathon pace training.' },
+    { name: 'Threshold (T)', min: 0.83, max: 0.88, description: 'Tempo runs and lactate threshold.' },
+    { name: 'Interval (I)', min: 0.95, max: 1.0, description: 'VO2 max and interval training.' },
+    { name: 'Repetition (R)', min: 1.05, max: 1.1, description: 'Speed and short repeats.' },
+  ];
+
+  return zones.map(zone => ({
+    name: zone.name,
+    min: (vdot / zone.max).toFixed(2),
+    max: (vdot / zone.min).toFixed(2),
+    description: zone.description,
+  }));
+}
+
+function displayResults(vdot, trainingPaces) {
+  let resultsHTML = `<h2>VDOT: ${vdot}</h2>`;
+  resultsHTML += '<h2>Training Paces (Jack Daniels)</h2>';
+  resultsHTML += '<table><tr><th>Zone</th><th>Min Pace</th><th>Max Pace</th><th>Description</th></tr>';
+  trainingPaces.forEach(zone => {
+    resultsHTML += `<tr><td>${zone.name}</td><td>${zone.min}</td><td>${zone.max}</td><td>${zone.description}</td></tr>`;
+  });
+  resultsHTML += '</table>';
+
+  document.getElementById('results').innerHTML = resultsHTML;
+}
