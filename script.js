@@ -89,6 +89,9 @@ function calculateVDOT(distance, time) {
 }
 
 function calculateTrainingPaces(vdot) {
+  // Threshold pace is the pace corresponding to the VDOT value
+  const thresholdPace = vdot; // Threshold pace in min/km
+
   const zones = [
     { name: 'Easy (E)', min: 0.59, max: 0.74, description: 'Recovery and long runs.' },
     { name: 'Marathon (M)', min: 0.75, max: 0.84, description: 'Marathon pace training.' },
@@ -97,13 +100,10 @@ function calculateTrainingPaces(vdot) {
     { name: 'Repetition (R)', min: 1.05, max: 1.1, description: 'Speed and short repeats.' },
   ];
 
-  // VDOT pace is the pace corresponding to the VDOT value
-  const vdotPace = vdot; // VDOT pace in min/km
-
   return zones.map(zone => ({
     name: zone.name,
-    min: (vdotPace / zone.max).toFixed(2),
-    max: (vdotPace / zone.min).toFixed(2),
+    min: (thresholdPace / zone.max).toFixed(2),
+    max: (thresholdPace / zone.min).toFixed(2),
     description: zone.description,
   }));
 }
