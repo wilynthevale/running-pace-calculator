@@ -97,10 +97,13 @@ function calculateTrainingPaces(vdot) {
     { name: 'Repetition (R)', min: 1.05, max: 1.1, description: 'Speed and short repeats.' },
   ];
 
+  // VDOT pace is the pace corresponding to the VDOT value
+  const vdotPace = vdot; // VDOT pace in min/km
+
   return zones.map(zone => ({
     name: zone.name,
-    min: (vdot / zone.max).toFixed(2),
-    max: (vdot / zone.min).toFixed(2),
+    min: (vdotPace / zone.max).toFixed(2),
+    max: (vdotPace / zone.min).toFixed(2),
     description: zone.description,
   }));
 }
