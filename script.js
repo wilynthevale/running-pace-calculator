@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("button").addEventListener("click", calculatePaceZones);
+});
+
 function calculatePaceZones() {
     let raceTime = document.getElementById("race-time").value;
     let raceDistance = parseFloat(document.getElementById("race-distance").value);
