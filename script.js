@@ -1,121 +1,51 @@
-document.getElementById('calculator').addEventListener('submit', function (e) {
-  e.preventDefault();
+function calculatePaceZones() {
+    let raceTime = document.getElementById("race-time").value;
+    let raceDistance = parseFloat(document.getElementById("race-distance").value);
 
-  // Get inputs
-  const raceDistance = document.getElementById('raceDistance').value;
-  const raceTime = parseFloat(document.getElementById('raceTime').value);
-
-  // Validate inputs
-  if (!raceDistance || isNaN(raceTime) || raceTime <= 0) {
-    alert('Please enter valid race details.');
-    return;
-  }
-
-  // Calculate VDOT
-  const vdot = calculateVDOT(raceDistance, raceTime);
-
-  if (vdot === null) {
-    alert('Invalid race distance or time. Please try again.');
-    return;
-  }
-
-  // Calculate Training Paces
-  const trainingPaces = calculateTrainingPaces(vdot);
-
-  // Display Results
-  displayResults(vdot, trainingPaces);
-});
-
-// VDOT Lookup Table
-const vdotTable = {
-  '5K': [
-    { time: 14, vdot: 85 },
-    { time: 16, vdot: 75 },
-    { time: 18, vdot: 65 },
-    { time: 20, vdot: 55 },
-    { time: 22, vdot: 45 },
-    { time: 24, vdot: 35 },
-  ],
-  '10K': [
-    { time: 30, vdot: 85 },
-    { time: 35, vdot: 75 },
-    { time: 40, vdot: 65 },
-    { time: 45, vdot: 55 },
-    { time: 50, vdot: 45 },
-    { time: 55, vdot: 35 },
-  ],
-  'Half Marathon': [
-    { time: 65, vdot: 85 },
-    { time: 75, vdot: 75 },
-    { time: 85, vdot: 65 },
-    { time: 95, vdot: 55 },
-    { time: 105, vdot: 45 },
-    { time: 115, vdot: 35 },
-  ],
-  'Marathon': [
-    { time: 140, vdot: 85 },
-    { time: 160, vdot: 75 },
-    { time: 180, vdot: 65 },
-    { time: 200, vdot: 55 },
-    { time: 220, vdot: 45 },
-    { time: 240, vdot: 35 },
-  ],
-};
-
-function calculateVDOT(distance, time) {
-  const table = vdotTable[distance];
-  if (!table) return null;
-
-  // Find the closest lower and higher times
-  let lower = null;
-  let higher = null;
-
-  for (const entry of table) {
-    if (entry.time <= time) {
-      lower = entry;
-    } else {
-      higher = entry;
-      break;
+    if (!raceTime || isNaN(raceDistance) || raceDistance <= 0) {
+        document.getElementById("results").innerHTML = "<p>Please enter a valid race time and distance.</p>";
+        document.getElementById("zone-descriptions").innerHTML = "";
+        return;
     }
-  }
 
-  // If time is outside the table range, return the closest VDOT
-  if (!lower) return table[0].vdot;
-  if (!higher) return table[table.length - 1].vdot;
+    let paceInSeconds = convertTimeToSeconds(raceTime) / raceDistance;
+    let vdotPaces = calculateVDOTPaces(paceInSeconds);
 
-  // Interpolate VDOT
-  const vdot = lower.vdot + ((time - lower.time) / (higher.time - lower.time)) * (higher.vdot - lower.vdot);
-  return Math.round(vdot * 100) / 100; // Round to 2 decimal places
+    let resultsHtml = "<table><tr><th>Zone</th><th>Pace (min/km)</th></tr>";
+    for (let zone in vdotPaces) {
+        resultsHtml += `<tr class="${vdotPaces[zone].class}"><td>${zone}</td><td>${formatPace(vdotPaces[zone].pace)}</td></tr>`;
+    }
+    resultsHtml += "</table>";
+
+    let descriptionsHtml = `
+        <div class="zone-description"><strong>Zone 1 (Easy Pace):</strong> A relaxed, conversational pace, perfect for recovery runs and building aerobic capacity.</div>
+        <div class="zone-description"><strong>Zone 2 (Marathon Pace):</strong> A steady, controlled pace suitable for long-distance race efforts.</div>
+        <div class="zone-description"><strong>Zone 3 (Threshold Pace):</strong> Also called tempo pace, this effort is comfortably hard and helps improve lactate threshold.</div>
+        <div class="zone-description"><strong>Zone 4 (Interval Pace):</strong> A high-intensity pace used for VO2 max workouts, typically lasting 3-5 minutes per rep.</div>
+        <div class="zone-description"><strong>Zone 5 (Repetition Pace):</strong> The fastest training pace, used for short sprints to develop speed and power.</div>
+    `;
+
+    document.getElementById("results").innerHTML = resultsHtml;
+    document.getElementById("zone-descriptions").innerHTML = descriptionsHtml;
 }
 
-function calculateTrainingPaces(vdot) {
-  // Threshold pace is the pace corresponding to the VDOT value
-  const thresholdPace = vdot; // Threshold pace in min/km
-
-  const zones = [
-    { name: 'Easy (E)', min: 0.59, max: 0.74, description: 'Recovery and long runs.' },
-    { name: 'Marathon (M)', min: 0.75, max: 0.84, description: 'Marathon pace training.' },
-    { name: 'Threshold (T)', min: 0.83, max: 0.88, description: 'Tempo runs and lactate threshold.' },
-    { name: 'Interval (I)', min: 0.95, max: 1.0, description: 'VO2 max and interval training.' },
-    { name: 'Repetition (R)', min: 1.05, max: 1.1, description: 'Speed and short repeats.' },
-  ];
-
-  return zones.map(zone => ({
-    name: zone.name,
-    min: (thresholdPace / zone.max).toFixed(2),
-    max: (thresholdPace / zone.min).toFixed(2),
-    description: zone.description,
-  }));
+function convertTimeToSeconds(timeStr) {
+    let parts = timeStr.split(":").map(Number);
+    return parts[0] * 3600 + parts[1] * 60 + parts[2];
 }
 
-function displayResults(vdot, trainingPaces) {
-  let resultsHTML = `<h2>VDOT: ${vdot}</h2>`;
-  resultsHTML += '<h2>Training Paces (Jack Daniels)</h2>';
-  resultsHTML += '<table><tr><th>Zone</th><th>Min Pace</th><th>Max Pace</th><th>Description</th></tr>';
-  trainingPaces.forEach(zone => {
-    resultsHTML += `<tr><td>${zone.name}</td><td>${zone.min}</td><td>${zone.max}</td><td>${zone.description}</td></tr>`;
-  });
-  resultsHTML += '</table>';
+function formatPace(secondsPerKm) {
+    let minutes = Math.floor(secondsPerKm / 60);
+    let seconds = Math.round(secondsPerKm % 60);
+    return `${minutes}:${seconds.toString().padStart(2, "0")} min/km`;
+}
 
-  document.getElementById('results').innerHTML = resultsHTML;
+function calculateVDOTPaces(basePace) {
+    return {
+        "Zone 1 (Easy Pace)": { pace: basePace * 1.15, class: "zone1" },
+        "Zone 2 (Marathon Pace)": { pace: basePace * 1.05, class: "zone2" },
+        "Zone 3 (Threshold Pace)": { pace: basePace * 0.95, class: "zone3" },
+        "Zone 4 (Interval Pace)": { pace: basePace * 0.90, class: "zone4" },
+        "Zone 5 (Repetition Pace)": { pace: basePace * 0.85, class: "zone5" }
+    };
 }
