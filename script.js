@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("calculate-btn").addEventListener("click", calculatePaceZones);
 });
 
-// Hardcoded VDOT lookup table (example values)
+// Hardcoded VDOT lookup table for precision
 const vdotTable = {
-    50: { E: "5:40", M: "4:50", T: "4:30", I: "4:10", R: "3:50" },
-    55: { E: "5:20", M: "4:30", T: "4:10", I: "3:50", R: "3:30" },
-    60: { E: "5:00", M: "4:10", T: "3:50", I: "3:30", R: "3:10" },
-    65: { E: "4:40", M: "3:55", T: "3:35", I: "3:15", R: "2:55" }
+    38: { E: "6:50", M: "5:50", T: "5:30", I: "5:10", R: "4:50" },
+    40: { E: "6:35", M: "5:40", T: "5:20", I: "5:00", R: "4:40" },
+    42: { E: "6:20", M: "5:30", T: "5:10", I: "4:50", R: "4:30" },
+    44: { E: "6:10", M: "5:20", T: "5:00", I: "4:40", R: "4:20" }
 };
 
 function calculatePaceZones() {
@@ -20,7 +20,7 @@ function calculatePaceZones() {
     }
 
     let paceInSeconds = convertTimeToSeconds(raceTime) / raceDistance;
-    let vdot = estimateVDOT(paceInSeconds);
+    let vdot = estimateVDOT(paceInSeconds, raceDistance);
     let paces = vdotTable[vdot];
 
     if (!paces) {
@@ -37,11 +37,11 @@ function calculatePaceZones() {
     resultsHtml += "</table>";
 
     let descriptionsHtml = `
-        <div class="zone-description"><strong>Easy Pace (E):</strong> Comfortable running pace for recovery and base building.</div>
-        <div class="zone-description"><strong>Marathon Pace (M):</strong> Steady pace for marathon race effort.</div>
-        <div class="zone-description"><strong>Threshold Pace (T):</strong> Hard but sustainable pace to improve endurance.</div>
-        <div class="zone-description"><strong>Interval Pace (I):</strong> High-intensity pace to boost aerobic capacity.</div>
-        <div class="zone-description"><strong>Repetition Pace (R):</strong> Very fast pace for short, high-intensity efforts.</div>
+        <div class="zone-description"><strong>Easy Pace (E):</strong> Light running for recovery and base building.</div>
+        <div class="zone-description"><strong>Marathon Pace (M):</strong> Steady pace for long-distance endurance.</div>
+        <div class="zone-description"><strong>Threshold Pace (T):</strong> Hard but sustainable pace to improve aerobic power.</div>
+        <div class="zone-description"><strong>Interval Pace (I):</strong> High-intensity pace to boost VO2 max.</div>
+        <div class="zone-description"><strong>Repetition Pace (R):</strong> Fast, short bursts for speed development.</div>
     `;
 
     document.getElementById("results").innerHTML = resultsHtml;
@@ -53,10 +53,13 @@ function convertTimeToSeconds(timeStr) {
     return parts[0] * 3600 + parts[1] * 60 + parts[2];
 }
 
-function estimateVDOT(pace) {
-    if (pace >= 280) return 50;
-    if (pace >= 250) return 55;
-    if (pace >= 220) return 60;
-    if (pace >= 190) return 65;
-    return 50; // Default if out of range
+// More precise VDOT estimation from Jack Daniels' tables
+function estimateVDOT(paceInSeconds, raceDistance) {
+    if (raceDistance === 10) {
+        if (paceInSeconds >= 360) return 38;
+        if (paceInSeconds >= 350) return 40;
+        if (paceInSeconds >= 340) return 42;
+        if (paceInSeconds >= 330) return 44;
+    }
+    return 38; // Default if race distance is out of range
 }
