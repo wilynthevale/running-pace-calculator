@@ -45,6 +45,9 @@ function calculatePaceZones() {
         paces = interpolatePaces(lowerVDOT, upperVDOT, vdot);
     }*/
 paces = vdotTable[30];
+document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT here.</p>`;
+        return
+    
     let resultsHtml = "<table><tr><th>Zone</th><th>Pace (min/km)</th></tr>";
     resultsHtml += `<tr class="zone1"><td>Easy Pace (E)</td><td>${paces.E1}~${paces.E2}</td></tr>`;
     resultsHtml += `<tr class="zone2"><td>Marathon Pace (M)</td><td>${paces.M}</td></tr>`;
