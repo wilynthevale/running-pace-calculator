@@ -35,8 +35,8 @@ function calculatePaceZones() {
         return;
     }
 
-    let lowerVDOT = Math.floor(vdot/5)*5;
-    let upperVDOT = Math.ceil(vdot/5)*5;
+    let lowerVDOT = Math.floor(vdot / 5) * 5;
+    let upperVDOT = Math.ceil(vdot / 5) * 5;
 /*
     let paces;
     if (lowerVDOT === upperVDOT) {
