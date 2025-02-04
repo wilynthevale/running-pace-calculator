@@ -74,11 +74,11 @@ function calculatePaceZones() {
     resultsHtml += "</table>";
 
     let descriptionsHtml = `
-        <div class="zone-description"><strong>Easy Pace (E):</strong> Light running for recovery and base building.</div>
-        <div class="zone-description"><strong>Marathon Pace (M):</strong> Steady pace for long-distance endurance.</div>
-        <div class="zone-description"><strong>Threshold Pace (T):</strong> Hard but sustainable pace to improve aerobic power.</div>
-        <div class="zone-description"><strong>Interval Pace (I):</strong> High-intensity pace to boost VO2 max.</div>
-        <div class="zone-description"><strong>Repetition Pace (R):</strong> Fast, short bursts for speed development.</div>
+        <div class="zone-description zone1"><strong>Easy Pace (E):</strong> Light running for recovery and base building.</div>
+        <div class="zone-description zone2"><strong>Marathon Pace (M):</strong> Steady pace for long-distance endurance.</div>
+        <div class="zone-description zone3"><strong>Threshold Pace (T):</strong> Hard but sustainable pace to improve aerobic power.</div>
+        <div class="zone-description zone4"><strong>Interval Pace (I):</strong> High-intensity pace to boost VO2 max.</div>
+        <div class="zone-description zone5"><strong>Repetition Pace (R):</strong> Fast, short bursts for speed development.</div>
     `;
 
     document.getElementById("results").innerHTML = resultsHtml;
