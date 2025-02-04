@@ -34,7 +34,7 @@ function calculatePaceZones() {
         document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT value out of range.</p>`;
         return;
     }
-document.getElementById("results").innerHTML = `<p style='color:red;'>${vdot}</p>`;
+document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT: ${vdot}</p>`;
         return
     
     let lowerVDOT = Math.floor(vdot / 5) * 5;
