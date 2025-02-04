@@ -30,6 +30,8 @@ function calculatePaceZones() {
     let vdot = estimateVDOT(raceTime, raceDistance);
     let paces = vdotTable[vdot];
 
+    console.log("Estimated VDOT:", vdot);
+
     if (!paces) {
         document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT value out of range.</p>`;
         return;
