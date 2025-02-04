@@ -136,13 +136,47 @@ function estimateVDOT(raceTime, raceDistance) {
     let raceTimeSec = convertTimeToSeconds(raceTime);
     if (!raceTimeSec) return null;
 
-    let bestMatch = null;
-    for (let vdot in raceTimes[raceDistance]) {
-        let vdotTimeSec = convertTimeToSeconds(raceTimes[raceDistance][vdot]);
-        if (!vdotTimeSec) continue;
-        if (!bestMatch || Math.abs(vdotTimeSec - raceTimeSec) < Math.abs(convertTimeToSeconds(raceTimes[raceDistance][bestMatch]) - raceTimeSec)) {
-            bestMatch = vdot;
+    let times = Object.entries(raceTimes[raceDistance]).map(([vdot, time]) => [parseInt(vdot), convertTimeToSeconds(time)]);
+
+    let lowerVDOT = null, upperVDOT = null;
+    for (let i = 0; i < times.length; i++) {
+        if (times[i][1] >= raceTimeSec) {
+            lowerVDOT = times[i];
+        }
+        if (times[i][1] <= raceTimeSec) {
+            upperVDOT = times[i];
+            break;
         }
     }
-    return bestMatch ? parseInt(bestMatch) : null;
+
+    // If race time is beyond table limits, return closest VDOT
+    if (!lowerVDOT) return upperVDOT[0];  // Faster than fastest time
+    if (!upperVDOT) return lowerVDOT[0];  // Slower than slowest time
+
+    // Linear interpolation: VDOT = lowerVDOT + factor * (upperVDOT - lowerVDOT)
+    let factor = (raceTimeSec - lowerVDOT[1]) / (upperVDOT[1] - lowerVDOT[1]);
+    let interpolatedVDOT = lowerVDOT[0] + factor * (upperVDOT[0] - lowerVDOT[0]);
+
+    return interpolatedVDOT.toFixed(2); // Return precise VDOT value let times = Object.entries(raceTimes[raceDistance]).map(([vdot, time]) => [parseInt(vdot), convertTimeToSeconds(time)]);
+
+    let lowerVDOT = null, upperVDOT = null;
+    for (let i = 0; i < times.length; i++) {
+        if (times[i][1] >= raceTimeSec) {
+            lowerVDOT = times[i];
+        }
+        if (times[i][1] <= raceTimeSec) {
+            upperVDOT = times[i];
+            break;
+        }
+    }
+
+    // If race time is beyond table limits, return closest VDOT
+    if (!lowerVDOT) return upperVDOT[0];  // Faster than fastest time
+    if (!upperVDOT) return lowerVDOT[0];  // Slower than slowest time
+
+    // Linear interpolation: VDOT = lowerVDOT + factor * (upperVDOT - lowerVDOT)
+    let factor = (raceTimeSec - lowerVDOT[1]) / (upperVDOT[1] - lowerVDOT[1]);
+    let interpolatedVDOT = lowerVDOT[0] + factor * (upperVDOT[0] - lowerVDOT[0]);
+
+    return interpolatedVDOT.toFixed(2); // Return precise VDOT value
 }
