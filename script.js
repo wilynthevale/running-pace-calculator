@@ -77,28 +77,13 @@ function estimateVDOT(raceTime, raceDistance) {
     let raceTimeSec = convertTimeToSeconds(raceTime);
     if (!raceTimeSec) return null;
 
-    let vdotKeys = Object.keys(raceTimes[raceDistance]).map(Number);
-    let lowerVDOT = null, upperVDOT = null;
-
-    for (let i = 0; i < vdotKeys.length - 1; i++) {
-        let v1 = vdotKeys[i];
-        let v2 = vdotKeys[i + 1];
-
-        let t1 = convertTimeToSeconds(raceTimes[raceDistance][v1]);
-        let t2 = convertTimeToSeconds(raceTimes[raceDistance][v2]);
-
-        if (raceTimeSec >= t1 && raceTimeSec <= t2) {
-            lowerVDOT = v1;
-            upperVDOT = v2;
-            break;
+    let bestMatch = null;
+    for (let vdot in raceTimes[raceDistance]) {
+        let vdotTimeSec = convertTimeToSeconds(raceTimes[raceDistance][vdot]);
+        if (!vdotTimeSec) continue;
+        if (!bestMatch || Math.abs(vdotTimeSec - raceTimeSec) < Math.abs(convertTimeToSeconds(raceTimes[raceDistance][bestMatch]) - raceTimeSec)) {
+            bestMatch = vdot;
         }
     }
-
-    if (lowerVDOT === null || upperVDOT === null) return null; // Outside range
-
-    let t1 = convertTimeToSeconds(raceTimes[raceDistance][lowerVDOT]);
-    let t2 = convertTimeToSeconds(raceTimes[raceDistance][upperVDOT]);
-
-    let interpolatedVDOT = lowerVDOT + (upperVDOT - lowerVDOT) * ((raceTimeSec - t1) / (t2 - t1));
-    return return Math.min(85, Math.max(30, Math.round(interpolatedVDOT))); 
+    return bestMatch ? parseInt(bestMatch) : null;
 }
