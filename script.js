@@ -158,25 +158,4 @@ function estimateVDOT(raceTime, raceDistance) {
     let interpolatedVDOT = lowerVDOT[0] + factor * (upperVDOT[0] - lowerVDOT[0]);
 
     return interpolatedVDOT.toFixed(2); // Return precise VDOT value let times = Object.entries(raceTimes[raceDistance]).map(([vdot, time]) => [parseInt(vdot), convertTimeToSeconds(time)]);
-
-    let lowerVDOT = null, upperVDOT = null;
-    for (let i = 0; i < times.length; i++) {
-        if (times[i][1] >= raceTimeSec) {
-            lowerVDOT = times[i];
-        }
-        if (times[i][1] <= raceTimeSec) {
-            upperVDOT = times[i];
-            break;
-        }
-    }
-
-    // If race time is beyond table limits, return closest VDOT
-    if (!lowerVDOT) return upperVDOT[0];  // Faster than fastest time
-    if (!upperVDOT) return lowerVDOT[0];  // Slower than slowest time
-
-    // Linear interpolation: VDOT = lowerVDOT + factor * (upperVDOT - lowerVDOT)
-    let factor = (raceTimeSec - lowerVDOT[1]) / (upperVDOT[1] - lowerVDOT[1]);
-    let interpolatedVDOT = lowerVDOT[0] + factor * (upperVDOT[0] - lowerVDOT[0]);
-
-    return interpolatedVDOT.toFixed(2); // Return precise VDOT value
 }
