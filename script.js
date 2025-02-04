@@ -34,18 +34,16 @@ function calculatePaceZones() {
         document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT value out of range.</p>`;
         return;
     }
-document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT: ${vdot}</p>`;
-        return
     
     let lowerVDOT = Math.floor(vdot / 5) * 5;
     let upperVDOT = Math.ceil(vdot / 5) * 5;
-/*
+
     let paces;
     if (lowerVDOT === upperVDOT) {
         paces = vdotTable[lowerVDOT];
     } else {
         paces = interpolatePaces(lowerVDOT, upperVDOT, vdot);
-    }*/
+    }
     
     let resultsHtml = "<table><tr><th>Zone</th><th>Pace (min/km)</th></tr>";
     resultsHtml += `<tr class="zone1"><td>Easy Pace (E)</td><td>${paces.E1}~${paces.E2}</td></tr>`;
@@ -94,6 +92,14 @@ function interpolatePaces(lowerVDOT, upperVDOT, vdot) {
         I: interpolate(lowerPaces.I, upperPaces.I, factor),
         R: interpolate(lowerPaces.R, upperPaces.R, factor)
     };
+}
+
+// Convert race time from "HH:MM:SS" or "MM:SS" to total seconds
+function convertTimeToSeconds(timeStr) {
+    let parts = timeStr.split(":").map(Number);
+    if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    if (parts.length === 2) return parts[0] * 60 + parts[1];
+    return null;
 }
 
 // More precise VDOT estimation using race time lookup from Table 1
