@@ -72,30 +72,37 @@ function estimateVDOT(raceTime, raceDistance) {
         "Marathon": { 20: "6:31:59", 25: "5:32:15", 30: "4:49:17", 32: "4:34:59", 34: "4:22:03", 36: "4:10:19", 38: "3:59:35", 40: "3:49:45", 42: "3:40:43", 44: "3:32:23", 46: "3:24:39", 47: "3:21:00", 48: "3:17:29", 49: "3:14:06", 50: "3:10:47", 51: "3:07:39", 52: "3:04:36", 53: "3:01:45", 54: "2:58:47", 55: "2:56:01", 56: "2:53:16", 57: "2:50:47", 58: "2:48:27", 59: "2:46:05", 60: "2:43:23", 61: "2:41:08", 62: "2:38:54", 63: "2:36:43", 64: "2:34:38", 65: "2:32:35", 66: "2:30:36", 67: "2:28:40", 68: "2:26:47", 69: "2:24:57", 70: "2:23:10", 71: "2:21:26", 72: "2:19:44", 73: "2:18:05", 74: "2:16:29", 75: "2:14:55", 76: "2:13:23", 77: "2:11:53", 78: "2:10:25", 79: "2:09:02", 80: "2:07:38", 81: "2:06:17", 82: "2:04:57", 83: "2:03:40", 85: "2:01:10" }
     };
 
-    if (!(raceDistance in raceTimes)) return null;
+    if (!(raceDistance in raceTimes)) {
+        console.error("Race distance not found in table");
+        return null;
+    }
 
     let raceTimeSec = convertTimeToSeconds(raceTime);
-    if (!raceTimeSec) return null;
+    if (!raceTimeSec) {
+        console.error("Invalid race time format");
+        return null;
+    }
 
     const distanceTimes = raceTimes[raceDistance];
     let vdotValues = Object.keys(distanceTimes).map(Number).sort((a, b) => a - b);
-    
-    let slowestVDOT = vdotValues[0];
-    let fastestVDOT = vdotValues[vdotValues.length - 1];
 
-    let slowestTime = convertTimeToSeconds(distanceTimes[slowestVDOT]);
-    let fastestTime = convertTimeToSeconds(distanceTimes[fastestVDOT]);
+    let minVDOT = vdotValues[0];
+    let maxVDOT = vdotValues[vdotValues.length - 1];
 
-    // Handle out-of-range cases
-    if (raceTimeSec >= slowestTime) return slowestVDOT;
-    if (raceTimeSec <= fastestTime) return fastestVDOT;
+    let minTime = convertTimeToSeconds(distanceTimes[minVDOT]);
+    let maxTime = convertTimeToSeconds(distanceTimes[maxVDOT]);
 
-    // Find the surrounding VDOT values
+    // If race time is slower than the lowest VDOT entry, return min VDOT
+    if (raceTimeSec >= minTime) return minVDOT;
+    // If race time is faster than the highest VDOT entry, return max VDOT
+    if (raceTimeSec <= maxTime) return maxVDOT;
+
+    // Find the closest two VDOT values for interpolation
     let lowerVdot = null, upperVdot = null;
     for (let i = 0; i < vdotValues.length - 1; i++) {
         let timeLower = convertTimeToSeconds(distanceTimes[vdotValues[i]]);
         let timeUpper = convertTimeToSeconds(distanceTimes[vdotValues[i + 1]]);
-        
+
         if (raceTimeSec <= timeLower && raceTimeSec >= timeUpper) {
             lowerVdot = vdotValues[i];
             upperVdot = vdotValues[i + 1];
@@ -103,13 +110,20 @@ function estimateVDOT(raceTime, raceDistance) {
         }
     }
 
-    if (lowerVdot === null || upperVdot === null) return null;
+    // If we couldn't find a valid range, return null (shouldn't happen)
+    if (lowerVdot === null || upperVdot === null) {
+        console.error("No valid VDOT range found for interpolation");
+        return null;
+    }
 
     let lowerTime = convertTimeToSeconds(distanceTimes[lowerVdot]);
     let upperTime = convertTimeToSeconds(distanceTimes[upperVdot]);
 
-    // Linear interpolation for VDOT estimation
+    // Linear interpolation
     let interpolatedVdot = lowerVdot + ((raceTimeSec - lowerTime) / (upperTime - lowerTime)) * (upperVdot - lowerVdot);
+
+    // Ensure the interpolated VDOT is within bounds
+    interpolatedVdot = Math.max(minVDOT, Math.min(maxVDOT, interpolatedVdot));
 
     return Math.round(interpolatedVdot);
 }
