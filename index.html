@@ -8,17 +8,21 @@
 </head>
 <body>
     <h1>VDOT Running Pace Calculator</h1>
-    
-    <label for="race-distance">Select Race Distance:</label>
-    <select id="race-distance">
-        <option value="5K">5K</option>
-        <option value="10K">10K</option>
-        <option value="Half">Half Marathon</option>
-        <option value="Marathon">Marathon</option>
-    </select>
 
-    <label for="race-time">Enter Race Time (HH:MM:SS or MM:SS):</label>
-    <input type="text" id="race-time" placeholder="e.g., 1:30:00 or 45:30">
+    <div class="input-container">
+        <label for="race-distance">Select Race Distance:</label>
+        <select id="race-distance">
+            <option value="5K">5K</option>
+            <option value="10K">10K</option>
+            <option value="Half">Half Marathon</option>
+            <option value="Marathon">Marathon</option>
+        </select>
+    </div>
+
+    <div class="input-container">
+        <label for="race-time">Enter Race Time (HH:MM:SS or MM:SS):</label>
+        <input type="text" id="race-time" placeholder="e.g., 1:30:00 or 45:30">
+    </div>
     
     <button id="calculate-btn">Calculate</button>
 
