@@ -44,7 +44,7 @@ select {
 }
 
 input {
-    width: 150px;  
+    width: 100px;  
     max-width: 500px;  /* Optional limit */
     height: 30px;
     font-size: 14px;
