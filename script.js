@@ -28,7 +28,7 @@ function calculatePaceZones() {
         document.getElementById("results").innerHTML = "<p style='color:red;'>Please enter a valid race time and select a race distance.</p>";
         return;
     }
-
+/*
     let vdot = estimateVDOT(raceTime, raceDistance);
     if (vdot < 20 || vdot > 85) {
         document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT value out of range.</p>`;
@@ -37,7 +37,7 @@ function calculatePaceZones() {
 
     let lowerVDOT = Math.floor(vdot/5)*5;
     let upperVDOT = Math.ceil(vdot/5)*5;
-
+*/
     let paces;/*
     if (lowerVDOT === upperVDOT) {
         paces = vdotTable[lowerVDOT];
