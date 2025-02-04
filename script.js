@@ -1,5 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("calculate-btn").addEventListener("click", calculatePaceZones);
+    const raceTimeInput = document.getElementById("race-time");
+    const calculateBtn = document.getElementById("calculate-btn");
+
+    raceTimeInput.addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+        let formattedValue = "";
+
+        if (value.length > 4) {
+            // Format as HH:MM:SS (for longer races)
+            formattedValue = value.slice(0, value.length - 4) + ":" + value.slice(-4, -2) + ":" + value.slice(-2);
+        } else if (value.length > 2) {
+            // Format as MM:SS
+            formattedValue = value.slice(0, value.length - 2) + ":" + value.slice(-2);
+        } else {
+            formattedValue = value;
+        }
+
+        e.target.value = formattedValue;
+    });
+
+    calculateBtn.addEventListener("click", calculatePaceZones);
 });
 
 // More precise VDOT lookup table from Jack Daniels' Table 2
