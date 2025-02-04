@@ -34,7 +34,9 @@ function calculatePaceZones() {
         document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT value out of range.</p>`;
         return;
     }
-
+document.getElementById("results").innerHTML = `<p style='color:red;'>${vdot}</p>`;
+        return
+    
     let lowerVDOT = Math.floor(vdot / 5) * 5;
     let upperVDOT = Math.ceil(vdot / 5) * 5;
 /*
@@ -44,9 +46,6 @@ function calculatePaceZones() {
     } else {
         paces = interpolatePaces(lowerVDOT, upperVDOT, vdot);
     }*/
-
-document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT here.</p>`;
-        return
     
     let resultsHtml = "<table><tr><th>Zone</th><th>Pace (min/km)</th></tr>";
     resultsHtml += `<tr class="zone1"><td>Easy Pace (E)</td><td>${paces.E1}~${paces.E2}</td></tr>`;
