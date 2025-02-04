@@ -22,8 +22,8 @@ function calculatePaceZones() {
     let raceTime = document.getElementById("race-time").value;
     let raceDistance = document.getElementById("race-distance").value;
 
-    if (!raceTime || isNaN(parseFloat(raceDistance)) || raceDistance <= 0) {
-        document.getElementById("results").innerHTML = "<p style='color:red;'>Please enter a valid race time and distance.</p>";
+    if (!raceTime || !raceDistance) {
+        document.getElementById("results").innerHTML = "<p style='color:red;'>Please enter a valid race time and select a race distance.</p>";
         return;
     }
 
@@ -58,11 +58,12 @@ function calculatePaceZones() {
 // Convert race time from "HH:MM:SS" or "MM:SS" to total seconds
 function convertTimeToSeconds(timeStr) {
     let parts = timeStr.split(":").map(Number);
-    return parts.length === 3 ? parts[0] * 3600 + parts[1] * 60 + parts[2] :
-           parts.length === 2 ? parts[0] * 60 + parts[1] : null;
+    if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    if (parts.length === 2) return parts[0] * 60 + parts[1];
+    return null;
 }
 
-// More precise VDOT estimation using race time
+// More precise VDOT estimation using race time lookup from Table 1
 function estimateVDOT(raceTime, raceDistance) {
     const raceTimes = {
         "5K": { 30: "26:50", 35: "24:44", 40: "23:06", 45: "21:42", 50: "20:30", 55: "19:27", 60: "18:34", 65: "17:49", 70: "17:06", 75: "16:31", 80: "16:00", 85: "15:32" },
