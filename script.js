@@ -39,11 +39,12 @@ function calculatePaceZones() {
     let upperVDOT = Math.ceil(vdot/5)*5;
 
     let paces;
-    if (lowerVDOT === upperVDOT) {
+   /* if (lowerVDOT === upperVDOT) {
         paces = vdotTable[lowerVDOT];
     } else {
         paces = interpolatePaces(lowerVDOT, upperVDOT, vdot);
-    }
+    }*/
+    paces = vdotTable[30];
 
     let resultsHtml = "<table><tr><th>Zone</th><th>Pace (min/km)</th></tr>";
     resultsHtml += `<tr class="zone1"><td>Easy Pace (E)</td><td>${paces.E1}~${paces.E2}</td></tr>`;
