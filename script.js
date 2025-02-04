@@ -4,72 +4,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // More precise VDOT lookup table from Jack Daniels' Table 2
 const vdotTable = {
-    20: { E: "9:34", M: "8:40", T: "8:16", I: "7:47", R: "7:15" },
-    21: { E: "9:23", M: "8:30", T: "8:07", I: "7:38", R: "7:06" },
-    22: { E: "9:12", M: "8:21", T: "7:58", I: "7:29", R: "6:58" },
-    23: { E: "9:02", M: "8:12", T: "7:49", I: "7:21", R: "6:50" },
-    24: { E: "8:52", M: "8:03", T: "7:41", I: "7:13", R: "6:43" },
-    25: { E: "8:43", M: "7:55", T: "7:33", I: "7:06", R: "6:36" },
-    26: { E: "8:34", M: "7:47", T: "7:25", I: "6:59", R: "6:29" },
-    27: { E: "8:26", M: "7:39", T: "7:17", I: "6:52", R: "6:23" },
-    28: { E: "8:18", M: "7:32", T: "7:10", I: "6:46", R: "6:17" },
-    29: { E: "8:10", M: "7:25", T: "7:03", I: "6:40", R: "6:11" },
-    30: { E: "7:43", M: "6:57", T: "6:38", I: "6:14", R: "5:48" },
-    31: { E: "7:30", M: "6:35", T: "6:15", I: "5:55", R: "5:35" },
-    32: { E: "7:25", M: "6:30", T: "6:10", I: "5:50", R: "5:30" },
-    33: { E: "7:20", M: "6:25", T: "6:05", I: "5:45", R: "5:25" },
-    34: { E: "7:15", M: "6:20", T: "6:00", I: "5:40", R: "5:20" },
-    35: { E: "7:10", M: "6:10", T: "5:50", I: "5:30", R: "5:10" },
-    36: { E: "7:00", M: "6:05", T: "5:45", I: "5:25", R: "5:05" },
-    37: { E: "6:55", M: "6:00", T: "5:40", I: "5:20", R: "5:00" },
-    38: { E: "6:50", M: "5:55", T: "5:35", I: "5:15", R: "4:55" },
-    39: { E: "6:45", M: "5:50", T: "5:30", I: "5:10", R: "4:50" },
-    40: { E: "6:35", M: "5:40", T: "5:20", I: "5:00", R: "4:40" },
-    41: { E: "6:30", M: "5:35", T: "5:15", I: "4:55", R: "4:35" },
-    42: { E: "6:25", M: "5:30", T: "5:10", I: "4:50", R: "4:30" },
-    43: { E: "6:20", M: "5:25", T: "5:05", I: "4:45", R: "4:25" },
-    44: { E: "6:15", M: "5:20", T: "5:00", I: "4:40", R: "4:20" },
-    45: { E: "6:00", M: "5:20", T: "5:00", I: "4:40", R: "4:20" },
-    46: { E: "5:55", M: "5:15", T: "4:55", I: "4:35", R: "4:15" },
-    47: { E: "5:50", M: "5:10", T: "4:50", I: "4:30", R: "4:10" },
-    48: { E: "5:45", M: "5:05", T: "4:45", I: "4:25", R: "4:05" },
-    49: { E: "5:40", M: "5:00", T: "4:40", I: "4:20", R: "4:00" },
-    50: { E: "5:40", M: "5:00", T: "4:40", I: "4:20", R: "4:00" },
-    51: { E: "5:35", M: "4:55", T: "4:35", I: "4:15", R: "3:55" },
-    52: { E: "5:30", M: "4:50", T: "4:30", I: "4:10", R: "3:50" },
-    53: { E: "5:25", M: "4:45", T: "4:25", I: "4:05", R: "3:45" },
-    54: { E: "5:20", M: "4:40", T: "4:20", I: "4:00", R: "3:40" },
-    55: { E: "5:20", M: "4:40", T: "4:20", I: "4:00", R: "3:40" },
-    56: { E: "5:15", M: "4:35", T: "4:15", I: "3:55", R: "3:35" },
-    57: { E: "5:10", M: "4:30", T: "4:10", I: "3:50", R: "3:30" },
-    58: { E: "5:05", M: "4:25", T: "4:05", I: "3:45", R: "3:25" },
-    59: { E: "5:00", M: "4:20", T: "4:00", I: "3:40", R: "3:20" },
-    60: { E: "5:00", M: "4:30", T: "4:10", I: "3:50", R: "3:30" },
-    61: { E: "4:55", M: "4:25", T: "4:05", I: "3:45", R: "3:25" },
-    62: { E: "4:50", M: "4:20", T: "4:00", I: "3:40", R: "3:20" },
-    63: { E: "4:45", M: "4:15", T: "3:55", I: "3:35", R: "3:15" },
-    64: { E: "4:40", M: "4:10", T: "3:50", I: "3:30", R: "3:10" },
-    65: { E: "4:50", M: "4:20", T: "4:00", I: "3:40", R: "3:20" },
-    66: { E: "4:45", M: "4:15", T: "3:55", I: "3:35", R: "3:15" },
-    67: { E: "4:40", M: "4:10", T: "3:50", I: "3:30", R: "3:10" },
-    68: { E: "4:35", M: "4:05", T: "3:45", I: "3:25", R: "3:05" },
-    69: { E: "4:30", M: "4:00", T: "3:40", I: "3:20", R: "3:00" },
-    70: { E: "4:40", M: "4:10", T: "3:50", I: "3:30", R: "3:10" },
-    71: { E: "4:35", M: "4:05", T: "3:45", I: "3:25", R: "3:05" },
-    72: { E: "4:30", M: "4:00", T: "3:40", I: "3:20", R: "3:00" },
-    73: { E: "4:25", M: "3:55", T: "3:35", I: "3:15", R: "2:55" },
-    74: { E: "4:20", M: "3:50", T: "3:30", I: "3:10", R: "2:50" },
-    75: { E: "4:20", M: "3:50", T: "3:30", I: "3:10", R: "2:50" },
-    76: { E: "4:15", M: "3:45", T: "3:25", I: "3:05", R: "2:45" },
-    77: { E: "4:10", M: "3:40", T: "3:20", I: "3:00", R: "2:40" },
-    78: { E: "4:05", M: "3:35", T: "3:15", I: "2:55", R: "2:35" },
-    79: { E: "4:00", M: "3:30", T: "3:10", I: "2:50", R: "2:30" },
-    80: { E: "3:55", M: "3:25", T: "3:05", I: "2:45", R: "2:25" },
-    81: { E: "3:50", M: "3:20", T: "3:00", I: "2:40", R: "2:20" },
-    82: { E: "3:45", M: "3:15", T: "2:55", I: "2:35", R: "2:15" },
-    83: { E: "3:40", M: "3:10", T: "2:50", I: "2:30", R: "2:10" },
-    84: { E: "3:35", M: "3:05", T: "2:45", I: "2:25", R: "2:05" },
-    85: { E: "3:30", M: "3:00", T: "2:40", I: "2:20", R: "2:00" }
+    20: { E1: "8:23", E2: "9:09", M: "9:16", T: "7:47", I: "6:32", R: "6:17" },
+    25: { E1: "7:41", E2: "8:24", M: "7:52", T: "6:52", I: "5:57", R: "5:42" },    
+    30: { E1: "7:06", E2: "7:46", M: "6:51", T: "6:10", I: "5:29", R: "5:14" },    
+    35: { E1: "6:35", E2: "7:14", M: "6:04", T: "5:35", I: "5:04", R: "4:49" },    
+    40: { E1: "6:07", E2: "6:43", M: "5:27", T: "5:06", I: "4:42", R: "4:27" },    
+    45: { E1: "5:35", E2: "6:08", M: "4:57", T: "4:39", I: "4:17", R: "4:02" },    
+    50: { E1: "5:07", E2: "5:38", M: "4:31", T: "4:15", I: "3:55", R: "3:40" },    
+    55: { E1: "4:45", E2: "5:14", M: "4:11", T: "3:57", I: "3:38", R: "3:23" },    
+    60: { E1: "4:25", E2: "4:52", M: "3:52", T: "3:40", I: "3:22", R: "3:07" },    
+    65: { E1: "4:08", E2: "4:34", M: "3:37", T: "3:26", I: "3:10", R: "2:55" },
+    70: { E1: "3:54", E2: "4:18", M: "3:23", T: "3:14", I: "2:59", R: "2:44" },
+    75: { E1: "3:42", E2: "4:05", M: "3:12", T: "3:04", I: "2:50", R: "2:35" },
+    80: { E1: "3:30", E2: "3:51", M: "3:01", T: "2:54", I: "2:40", R: "2:25" },
+    85: { E1: "3:20", E2: "3:41", M: "2:52", T: "2:46", I: "2:33", R: "2:18" }
 };
 
 function calculatePaceZones() {
@@ -82,15 +30,23 @@ function calculatePaceZones() {
     }
 
     let vdot = estimateVDOT(raceTime, raceDistance);
-    let paces = vdotTable[vdot];
-
-    if (!paces) {
+    if (vdot < 20 || vdot > 85) {
         document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT value out of range.</p>`;
         return;
     }
 
+    let lowerVDOT = Math.floor(vdot);
+    let upperVDOT = Math.ceil(vdot);
+
+    let paces;
+    if (lowerVDOT === upperVDOT) {
+        paces = vdotTable[lowerVDOT];
+    } else {
+        paces = interpolatePaces(lowerVDOT, upperVDOT, vdot);
+    }
+
     let resultsHtml = "<table><tr><th>Zone</th><th>Pace (min/km)</th></tr>";
-    resultsHtml += `<tr class="zone1"><td>Easy Pace (E)</td><td>${paces.E}</td></tr>`;
+    resultsHtml += `<tr class="zone1"><td>Easy Pace (E)</td><td>${paces.E1}~${paces.E2}</td></tr>`;
     resultsHtml += `<tr class="zone2"><td>Marathon Pace (M)</td><td>${paces.M}</td></tr>`;
     resultsHtml += `<tr class="zone3"><td>Threshold Pace (T)</td><td>${paces.T}</td></tr>`;
     resultsHtml += `<tr class="zone4"><td>Interval Pace (I)</td><td>${paces.I}</td></tr>`;
@@ -109,12 +65,33 @@ function calculatePaceZones() {
     document.getElementById("zone-descriptions").innerHTML = descriptionsHtml;
 }
 
-// Convert race time from "HH:MM:SS" or "MM:SS" to total seconds
-function convertTimeToSeconds(timeStr) {
-    let parts = timeStr.split(":").map(Number);
-    if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-    if (parts.length === 2) return parts[0] * 60 + parts[1];
-    return null;
+function interpolatePaces(lowerVDOT, upperVDOT, vdot) {
+    function interpolate(time1, time2, factor) {
+        let [min1, sec1] = time1.split(":").map(Number);
+        let [min2, sec2] = time2.split(":").map(Number);
+
+        let totalSec1 = min1 * 60 + sec1;
+        let totalSec2 = min2 * 60 + sec2;
+
+        let interpolatedSec = totalSec1 + (totalSec2 - totalSec1) * factor;
+        let newMin = Math.floor(interpolatedSec / 60);
+        let newSec = Math.round(interpolatedSec % 60);
+
+        return `${newMin}:${newSec.toString().padStart(2, "0")}`;
+    }
+
+    let factor = (vdot - lowerVDOT) / (upperVDOT - lowerVDOT);
+    let lowerPaces = vdotTable[lowerVDOT];
+    let upperPaces = vdotTable[upperVDOT];
+
+    return {
+        E1: interpolate(lowerPaces.E1, upperPaces.E1, factor),
+        E2: interpolate(lowerPaces.E2, upperPaces.E2, factor),
+        M: interpolate(lowerPaces.M, upperPaces.M, factor),
+        T: interpolate(lowerPaces.T, upperPaces.T, factor),
+        I: interpolate(lowerPaces.I, upperPaces.I, factor),
+        R: interpolate(lowerPaces.R, upperPaces.R, factor)
+    };
 }
 
 // More precise VDOT estimation using race time lookup from Table 1
