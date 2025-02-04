@@ -77,6 +77,7 @@ table, .zone-description {
     width: var(--element-width);
     max-width: 500px;
     margin: 10px auto;
+    font-size: 14px;
     background-color: #f1f1f1;
     border-radius: 5px;
     overflow: hidden;
