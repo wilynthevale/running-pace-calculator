@@ -3,29 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Running Pace Zone Calculator</title>
+    <title>VDOT Running Pace Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Running Pace Zone Calculator</h1>
-        
-        <label for="race-distance">Select Race Distance:</label>
-        <select id="race-distance">
-            <option value="5.0">5 km</option>
-            <option value="10.0">10 km</option>
-            <option value="21.0975">Half Marathon (21.1 km)</option>
-            <option value="42.195">Marathon (42.2 km)</option>
-        </select>
+    <h1>VDOT Running Pace Calculator</h1>
+    
+    <label for="race-distance">Select Race Distance:</label>
+    <select id="race-distance">
+        <option value="5K">5K</option>
+        <option value="10K">10K</option>
+        <option value="Half">Half Marathon</option>
+        <option value="Marathon">Marathon</option>
+    </select>
 
-        <label for="race-time">Enter Race Time (HH:MM:SS or MM:SS):</label>
-        <input type="text" id="race-time" placeholder="e.g. 45:30 for 45 min 30 sec">
+    <label for="race-time">Enter Race Time (HH:MM:SS or MM:SS):</label>
+    <input type="text" id="race-time" placeholder="e.g., 1:30:00 or 45:30">
+    
+    <button id="calculate-btn">Calculate</button>
 
-        <button id="calculate-btn">Calculate Pace Zones</button>
-
-        <div id="results"></div>
-        <div id="zone-descriptions"></div>
-    </div>
+    <div id="results"></div>
+    <div id="zone-descriptions"></div>
 
     <script src="script.js"></script>
 </body>
