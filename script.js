@@ -34,10 +34,10 @@ function calculatePaceZones() {
         document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT value out of range.</p>`;
         return;
     }
-/*
+
     let lowerVDOT = Math.floor(vdot/5)*5;
     let upperVDOT = Math.ceil(vdot/5)*5;
-
+/*
     let paces;
     if (lowerVDOT === upperVDOT) {
         paces = vdotTable[lowerVDOT];
