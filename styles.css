@@ -26,8 +26,8 @@ label {
 }
 
 select, input {
-    width: 200px;
-    height: 40px;
+    width: 150px;
+    height: 30px;
     font-size: 16px;
     padding: 8px;
     border: 1px solid #ccc;
