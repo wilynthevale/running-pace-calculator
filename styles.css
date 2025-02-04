@@ -1,5 +1,5 @@
 :root {
-    --input-width: 120px; /* Define a common width */
+    --element-width: 90vw;  /* 90% of viewport width */
 }
 
 .input-container {
@@ -7,18 +7,20 @@
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 15px;
+    width: var(--element-width);
+    max-width: 500px;  /* Optional: Limit maximum width */
 }
 
 label {
     font-size: 16px;
-    font-weight: bold;
     margin-bottom: 5px;
     color: #555;
     text-align: left;
 }
 
 select, input {
-    width: var(--input-width);  /* Use the common width */
+    width: var(--element-width);  
+    max-width: 500px;  /* Optional limit */
     height: 35px;
     font-size: 14px;
     padding: 5px;
@@ -28,7 +30,8 @@ select, input {
 }
 
 button {
-    width: 250px;
+    width: var(--element-width);
+    max-width: 500px;
     height: 40px;
     font-size: 16px;
     color: white;
@@ -43,9 +46,9 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Ensure table and descriptions match input width */
+/* Ensure table and descriptions are also 90% of the screen width */
 table, .zone-description {
-    width: calc(var(--input-width) * 1.5);  /* Adjust width for readability */
+    width: var(--element-width);
     max-width: 500px;
     margin: 10px auto;
     background-color: white;
@@ -74,6 +77,6 @@ th {
 
 @media (max-width: 600px) {
     select, input, button, table, .zone-description {
-        width: 100%; /* Full width on small screens */
+        width: 90vw; /* Maintain 90% width on small screens */
     }
 }
