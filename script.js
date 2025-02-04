@@ -37,14 +37,14 @@ function calculatePaceZones() {
 
     let lowerVDOT = Math.floor(vdot/5)*5;
     let upperVDOT = Math.ceil(vdot/5)*5;
-*/
-    let paces;/*
+
+    let paces;
     if (lowerVDOT === upperVDOT) {
         paces = vdotTable[lowerVDOT];
     } else {
         paces = interpolatePaces(lowerVDOT, upperVDOT, vdot);
     }*/
-paces = vdotTable[30];
+
 document.getElementById("results").innerHTML = `<p style='color:red;'>VDOT here.</p>`;
         return
     
