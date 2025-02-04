@@ -100,5 +100,5 @@ function estimateVDOT(raceTime, raceDistance) {
     let t2 = convertTimeToSeconds(raceTimes[raceDistance][upperVDOT]);
 
     let interpolatedVDOT = lowerVDOT + (upperVDOT - lowerVDOT) * ((raceTimeSec - t1) / (t2 - t1));
-    return return Math.min(85, Math.max(20, Math.round(interpolatedVDOT))); 
+    return return Math.min(85, Math.max(30, Math.round(interpolatedVDOT))); 
 }
