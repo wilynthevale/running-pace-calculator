@@ -31,7 +31,7 @@ select, input {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    text-align: center;
+    text-align: left;
     background-color: white;
 }
 
