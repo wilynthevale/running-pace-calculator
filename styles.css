@@ -73,7 +73,7 @@ button:hover {
 /* Ensure table and descriptions are also 90% of the screen width */
 table, .zone-description {
     width: var(--element-width);
-    max-width: 500px;
+    max-width: 600px;
     margin: 10px auto;
     margin-left: 0px;
     font-size: 14px;
