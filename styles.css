@@ -1,4 +1,4 @@
-:root {
+ter:root {
     --element-width: 90vw;  /* 90% of viewport width */
 }
 
@@ -7,7 +7,7 @@ body {
     background-color: #f8f9fa;
     margin: 0;
     padding: 20px;
-    text-align: left;
+    text-align: center;
 }
 
 h1 {
@@ -29,7 +29,7 @@ label {
     font-weight: bold;
     margin-bottom: 5px;
     color: #555;
-    text-align: left;
+    text-align: center;
 }
 
 select {
