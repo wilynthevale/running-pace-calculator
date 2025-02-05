@@ -7,8 +7,6 @@ body {
     background-color: #f8f9fa;
     margin: 0;
     padding: 20px;
-    text-align: center;
-    vertical-align: middle;
 }
 
 h1 {
@@ -30,7 +28,7 @@ label {
     font-weight: bold;
     margin-bottom: 5px;
     color: #555;
-    text-align: center;
+    text-align: left;
 }
 
 select {
@@ -65,7 +63,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
-    text-align: center; 
+    text-align: left; 
 }
 
 button:hover {
@@ -82,6 +80,7 @@ table, .zone-description {
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
 }
 
 th, td {
