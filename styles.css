@@ -8,6 +8,7 @@ body {
     margin: 0;
     padding: 20px;
     text-align: center;
+    vertical-align: middle;
 }
 
 h1 {
@@ -41,7 +42,6 @@ select {
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: white;
-    text-align: center;
 }
 
 input {
@@ -52,7 +52,6 @@ input {
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: white;
-    text-align: center;
 }
 
 button {
