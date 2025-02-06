@@ -74,6 +74,7 @@ function calculatePaceZones() {
     resultsHtml += "</table>";
 
     let descriptionsHtml = `
+        <div class="zone-description zone1">VDOT: ${vdot} lowerVDOT: ${lowerVDOT} upperVDOT: ${upperVDOT}</div>
         <div class="zone-description zone1"><strong>Easy Pace (E):</strong> Light running for recovery and base building.</div>
         <div class="zone-description zone2"><strong>Marathon Pace (M):</strong> Steady pace for long-distance endurance.</div>
         <div class="zone-description zone3"><strong>Threshold Pace (T):</strong> Hard but sustainable pace to improve aerobic power.</div>
